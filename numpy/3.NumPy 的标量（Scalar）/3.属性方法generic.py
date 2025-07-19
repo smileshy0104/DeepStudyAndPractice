@@ -1,4 +1,6 @@
-# 在 NumPy 中，generic 类作为一个基础类，主要用于从 ndarray 类派生出 NumPy 标量（如 int_、float_ 等）。它的设计目的是为了提供一个统一的 API，使得 NumPy 标量能够共享 ndarray 的属性和方法。尽管 generic 类本身并不直接实现这些属性和方法，但它确实为 NumPy 标量提供了一个一致的接口。
+# TODO numpy.generic 是 numpy 标量类型的基类，大多数（所有？）numpy 派生标量的类型出自它。
+# 在 NumPy 中，generic 类作为一个基础类，主要用于从 ndarray 类派生出 NumPy 标量（如 int_、float_ 等）。
+# 它的设计目的是为了提供一个统一的 API，使得 NumPy 标量能够共享 ndarray 的属性和方法。尽管 generic 类本身并不直接实现这些属性和方法，但它确实为 NumPy 标量提供了一个一致的接口。
 #
 # generic 类的特点
 # 统一接口: generic 类提供了一种方式，使得所有 NumPy 标量可以通过相同的接口进行访问和操作。这种设计使得用户在处理标量时能够享受与处理数组相似的体验。
