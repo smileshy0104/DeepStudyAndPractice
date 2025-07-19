@@ -56,8 +56,41 @@ concatenated_array = np.concatenate((array1, array2), axis=0)
 print("连接后的数组:\n", concatenated_array)
 
 # TODO 9.可以使用 np.split() 将数组分割成多个部分。
+# numpy.split(ary, indices_or_sections, axis=0)
+# ary: 要分割的输入数组。
+# indices_or_sections: 可以是一个整数，表示将数组分成的部分数；也可以是一个一维数组，指定分割点的索引。
+# axis: 指定沿哪个轴进行分割，默认为 0（沿着第一维）。
+# 创建一个一维数组
+
+# 1. 使用整数分割
+array = np.arange(12)  # 创建包含 0 到 11 的一维数组
+print("原始数组:", array)
 # 分割数组
-split_arrays = np.split(concatenated_array, 2)  # 将数组分割成 2 个部分
+split_arrays = np.split(array, 3)  # 将数组分割成 2 个部分
 print("分割后的数组:")
 for i, arr in enumerate(split_arrays):
+    print(f"部分 {i}:\n{arr}")
+
+# 2. 使用分割点
+# 创建一个一维数组
+array = np.arange(12)  # 创建包含 0 到 11 的一维数组
+print("原始数组:", array)
+
+# 指定分割点
+indices = [3, 5, 8]  # 在索引 3、5 和 8 处分割
+split_arrays = np.split(array, indices)
+print("分割后的数组:")
+for i, arr in enumerate(split_arrays):
+    print(f"部分 {i}:", arr)
+
+# 3. 多维数组的分割
+
+# 创建一个二维数组
+array_2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+print("原始二维数组:\n", array_2d)
+
+# 沿着第一维（行）分割成 2 个部分
+split_arrays_2d = np.split(array_2d, 2, axis=0)
+print("沿着第一维分割后的数组:")
+for i, arr in enumerate(split_arrays_2d):
     print(f"部分 {i}:\n{arr}")
