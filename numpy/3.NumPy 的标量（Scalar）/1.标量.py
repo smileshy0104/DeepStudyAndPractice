@@ -4,8 +4,12 @@
 # NumPy 标量的特点
 # 单一值: 标量————只包含一个值，而不是像数组那样包含多个值。
 # 类型: NumPy 支持多种标量类型，包括整数、浮点数、复数、布尔值等。
-# 高效: NumPy 的标量类型在内存中占用更少的空间，并且在计算时通常比 Python 的内置类型更高效。
+# 高效: NumPy 的标量类型在内存中————占用更少的空间，并且在计算时通常比 Python 的内置类型更高效。
 
+# Array 标量与 ndarray 具有相同的属性和方法（但是，Array 标量是不可变的，因此没有一个数组标量属性是可设置的））
+# 如果 val 是一个数组标量对象，则isinstance(val, np.generic)将返回 True
+# 如果 val 是复数值类型，则isinstance(val, np.complexfloating)将返回 True
+# 可以使用数据类型层次结构的其他成员来————确定存在哪种数组标量
 import numpy as np
 
 # 1. 整数标量
