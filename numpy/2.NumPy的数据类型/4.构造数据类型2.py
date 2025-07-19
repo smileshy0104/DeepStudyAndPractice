@@ -29,15 +29,15 @@ dtype_big_endian_ushort = np.dtype('>H')
 print("Big-endian unsigned short:", dtype_big_endian_ushort)  # 输出: dtype('>u2')
 
 # 8. Little-endian single-precision float
-dtype_little_endian_float = np.dtype('<f')
-print("Little-endian single-precision float:", dtype_little_endian_float)  # 输出: dtype('<f4')
+dtype_little_endian_float = np.dtype('<f') # 4*8=32
+print("Little-endian single-precision float:", dtype_little_endian_float)  # 输出: dtype('<f4') float32
 
 # 9. Double-precision floating-point number
-dtype_double = np.dtype('d')
+dtype_double = np.dtype('d') # 8*8=64
 print("Double-precision floating-point number:", dtype_double)  # 输出: dtype('float64')
 
 # 10. 32-bit signed integer
-dtype_signed_int32 = np.dtype('i4')
+dtype_signed_int32 = np.dtype('i4') # 4*8=32
 print("32-bit signed integer:", dtype_signed_int32)  # 输出: dtype('int32')
 
 # 11. 64-bit floating-point number
