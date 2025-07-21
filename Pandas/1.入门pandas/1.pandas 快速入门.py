@@ -1,7 +1,7 @@
 import pandas as pd  # 引入 pandas 库，按惯例起别名 pd
 
 # 读取 Excel 文件
-file_path = 'team.xlsx'  # 文件路径
+file_path = '../team.xlsx'  # 文件路径
 # df = pd.read_excel('https://www.gairuo.com/file/data/team.xlsx')  # 从网址读取
 
 # 尝试读取文件并处理异常
