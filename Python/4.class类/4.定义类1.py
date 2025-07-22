@@ -33,6 +33,10 @@ tom.add(1, 1)  # 让他计算加法
 tom.name = 'Tome'  # 修改姓名
 tom.math = 88  # 增加一个新的属性并赋值
 
+# TODO 删除实例属性
+# del tom.math
+# print(tom.math)
+
 # 内置属性
 print(tom.__doc__)  # 输出：'这是一个学生类'
 print(tom.__dict__)  # 查看类的属性，是一个字典
