@@ -42,14 +42,15 @@ x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_
 
 # 将标签数据转换为one-hot编码格式
 # 例如，标签[0, 1, 0] 会被转换为 [[1, 0], [0, 1], [1, 0]]
+# 告诉其，我们有两个类别，将其转换成one-hot编码（向量形式），这样模型才能处理
 # 2 表示类别数量
-y_train_one = to_categorical(y_train, 2)
-y_test_one = to_categorical(y_test, 2)
+y_train_one = to_categorical(y_train, 2) # y_train_one
+y_test_one = to_categorical(y_test, 2) # y_test_one
 
 # 对特征数据进行归一化处理
 # 将特征值缩放到 (0, 1) 区间，有助于加速模型收敛和提升性能
 sc = MinMaxScaler(feature_range=(0, 1))
-x_train = sc.fit_transform(x_train)
+x_train = sc.fit_transform(x_train) # 归一化训练集
 x_test = sc.transform(x_test)  # 注意：测试集使用训练集学习到的规则进行转换
 
 # 4. 构建神经网络模型
@@ -65,8 +66,8 @@ model.add(Dense(2, activation='softmax'))
 
 # 5. 编译模型
 # 配置模型的学习过程
-# loss='categorical_crossentropy': 使用分类交叉熵作为损失函数，适用于one-hot编码的标签
-# optimizer='SGD': 使用随机梯度下降作为优化器
+# loss='categorical_crossentropy': 使用分类交叉熵作为--损失函数，适用于one-hot编码的标签
+# optimizer='SGD': 使用随机梯度下降作为--优化器
 # metrics=['accuracy']: 在训练和测试期间评估的指标为准确率
 model.compile(loss='categorical_crossentropy', optimizer='SGD', metrics=['accuracy'])
 
@@ -76,37 +77,37 @@ model.compile(loss='categorical_crossentropy', optimizer='SGD', metrics=['accura
 # batch_size=64: 每个批次包含64个样本
 # verbose=2: 每个epoch输出一行日志
 # validation_data: 用于在每个epoch结束时评估模型性能的验证数据
-history = model.fit(x_train, y_train_one, epochs=110, batch_size=64, verbose=2, validation_data=(x_test, y_test_one))
+history = model.fit(x_train, y_train_one, epochs=150, batch_size=64, verbose=2, validation_data=(x_test, y_test_one))
 
 # 将训练好的模型保存到文件 'model.h5'
-model.save('model.h5')
+model.save('全连接神经网络乳腺癌检测实战/model.h5')
 
 # 7. 结果可视化
 # 绘制训练过程中的损失值（loss）变化曲线
-plt.plot(history.history['loss'], label='train_loss')
-plt.plot(history.history['val_loss'], label='val_loss')
-plt.title("全连接神经网络loss值图")
-plt.xlabel("Epochs")
-plt.ylabel("Loss")
-plt.legend()
-plt.show()
+plt.plot(history.history['loss'], label='train_loss') # 训练集损失值
+plt.plot(history.history['val_loss'], label='val_loss') # 验证集损失值
+plt.title("全连接神经网络loss值图") # 标题
+plt.xlabel("Epochs") # 横坐标
+plt.ylabel("Loss") # 纵坐标
+plt.legend() # 显示图例
+plt.show() # 显示图像
 
 # 绘制训练过程中的准确率（accuracy）变化曲线
-plt.plot(history.history['accuracy'], label='train_accuracy')
-plt.plot(history.history['val_accuracy'], label='val_accuracy')
-plt.title("全连接神经网络accuracy值图")
-plt.xlabel("Epochs")
-plt.ylabel("Accuracy")
-plt.legend()
-plt.show()
+plt.plot(history.history['accuracy'], label='train_accuracy')  # 训练集准确率
+plt.plot(history.history['val_accuracy'], label='val_accuracy') # 验证集准确率
+plt.title("全连接神经网络accuracy值图") # 标题
+plt.xlabel("Epochs") # 横坐标
+plt.ylabel("Accuracy") # 纵坐标
+plt.legend() # 显示图例
+plt.show() # 显示图像
 
 
 # 8. 评估模型并打印分类报告
 # 使用模型对测试集进行预测
-y_pred_one_hot = model.predict(x_test)
+y_pred_one_hot = model.predict(x_test) # 预测结果为one-hot编码
 # 将one-hot编码的预测结果转换回类别标签 (0或1)
-y_pred = np.argmax(y_pred_one_hot, axis=1)
+y_pred = np.argmax(y_pred_one_hot, axis=1) # axis=1 表示沿着行的方向操作
 
 # 打印分类报告，详细展示每个类别的精确度、召回率和F1分数
 print("\n分类报告:")
-print(classification_report(y_test, y_pred))
+print(classification_report(y_test, y_pred)) # y_test为真实标签，y_pred为预测标签
