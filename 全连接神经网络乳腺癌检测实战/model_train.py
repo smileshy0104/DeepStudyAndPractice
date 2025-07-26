@@ -15,7 +15,19 @@ plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的�
 
 # 3. 数据加载与预处理
 # 加载乳腺癌数据集
-dataset = pd.read_csv("breast_cancer_data.csv")
+# dataset = pd.read_csv("breast_cancer_data.csv")
+# 定义Excel文件路径
+file_path = '全连接神经网络乳腺癌检测实战/breast_cancer_data.xlsx'
+
+# 使用 try-except 块来处理可能的文件未找到错误
+try:
+    # 读取Excel文件到pandas DataFrame
+    dataset = pd.read_excel(file_path)
+    print(f"成功读取文件: {file_path}")
+except FileNotFoundError:
+    # 如果文件未找到，则打印错误消息并退出程序
+    print(f"文件未找到: {file_path}")
+    exit()
 
 # 提取特征数据 (所有行，除了最后一列的所有列)
 X = dataset.iloc[:, :-1]
