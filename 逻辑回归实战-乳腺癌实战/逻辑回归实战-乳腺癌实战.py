@@ -66,12 +66,15 @@ lr.fit(x_train, y_train)
 
 # 使用训练好的模型对测试集进行预测
 pre_result = lr.predict(x_test)
+print('预测结果:', pre_result)
 
 # 打印每个样本属于各个类别的概率
 pre_result_proba = lr.predict_proba(x_test)
+print('预测结果概率:', pre_result_proba)
 
 # 提取样本为“恶性”肿瘤（类别1）的概率
 pre_list = pre_result_proba[:, 1]
+print('样本为“恶性”肿瘤的概率:', pre_list)
 
 # --- 阈值调整与结果生成 ---
 
@@ -99,6 +102,7 @@ for i in range(len(pre_list)):
 # 生成并打印分类报告，其中包含精确率、召回率、F1分数等指标
 # labels=[0, 1] 指定了类别的顺序
 # target_names 指定了类别对应的名称
+# 输出结果
 report = classification_report(y_test, result, labels=[0, 1], target_names=['良性肿瘤', '恶性肿瘤'])
 print("\n分类报告:")
 print(report)
