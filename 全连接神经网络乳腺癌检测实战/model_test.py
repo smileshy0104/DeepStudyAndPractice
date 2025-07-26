@@ -16,7 +16,20 @@ plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的�
 
 # 3. 数据加载与预处理
 # 加载乳腺癌数据集
-dataset = pd.read_csv("breast_cancer_data.csv")
+# dataset = pd.read_csv("breast_cancer_data.csv")
+
+# 定义Excel文件路径
+file_path = '全连接神经网络乳腺癌检测实战/breast_cancer_data.xlsx'
+
+# 使用 try-except 块来处理可能的文件未找到错误
+try:
+    # 读取Excel文件到pandas DataFrame
+    dataset = pd.read_excel(file_path)
+    print(f"成功读取文件: {file_path}")
+except FileNotFoundError:
+    # 如果文件未找到，则打印错误消息并退出程序
+    print(f"文件未找到: {file_path}")
+    exit()
 
 # 提取特征数据 (所有行，除了最后一列的所有列)
 X = dataset.iloc[:, :-1]
@@ -39,7 +52,7 @@ x_test = sc.fit_transform(x_test)
 
 # 4. 加载并使用模型进行预测
 # 从 'model.h5' 文件加载已经训练好的神经网络模型
-model = load_model("model.h5")
+model = load_model("全连接神经网络乳腺癌检测实战/model.h5")
 
 # 使用加载的模型对测试数据进行预测
 # predict返回的是每个类别（良性/恶性）的概率
@@ -47,7 +60,8 @@ predict_probabilities = model.predict(x_test)
 
 # 从预测的概率中找出最大概率对应的索引，作为最终的预测类别
 # axis=1 表示沿着行的方向操作
-y_pred = np.argmax(predict_probabilities, axis=1)
+# 对应的阈值为0.5
+y_pred = np.argmax(predict_probabilities, axis=1) # y_pred 为预测标签
 
 # 5. 结果处理与展示
 # 将数字化的预测结果 (0 或 1) 转换成人类可读的标签 ("良性" 或 "恶性")
