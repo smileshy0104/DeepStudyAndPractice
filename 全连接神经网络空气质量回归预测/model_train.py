@@ -8,7 +8,9 @@ from sklearn.model_selection import train_test_split  # 用于划分数据集
 import keras  # Keras深度学习框架
 
 # 解决matplotlib中文显示问题
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体为黑体
+# 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
+# 'PingFang HK' 是 macOS 上常见的字体, 'SimHei' 和 'Microsoft YaHei' 是 Windows 上常见的字体
+plt.rcParams['font.sans-serif'] = ['PingFang HK', 'SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的问题
 
 # 1. 导入数据集

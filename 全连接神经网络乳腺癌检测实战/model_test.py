@@ -11,7 +11,9 @@ from sklearn.metrics import classification_report  # 用于生成分类报告
 from keras.models import load_model  # 用于加载已保存的Keras模型
 
 # 2. Matplotlib全局设置，解决中文显示问题
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体为黑体
+# 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
+# 'PingFang HK' 是 macOS 上常见的字体, 'SimHei' 和 'Microsoft YaHei' 是 Windows 上常见的字体
+plt.rcParams['font.sans-serif'] = ['PingFang HK', 'SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的问题
 
 # 3. 数据加载与预处理
