@@ -8,6 +8,7 @@ import keras  # 深度学习框架
 from keras.layers import Dense  # 全连接层
 from keras.utils.np_utils import to_categorical  # 用于将标签转换为one-hot编码
 from sklearn.metrics import classification_report  # 用于生成分类报告
+import joblib  # 用于保存和加载scikit-learn模型/对象
 
 # 2. Matplotlib全局设置，解决中文显示问题
 # 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
@@ -83,6 +84,8 @@ history = model.fit(x_train, y_train_one, epochs=150, batch_size=64, verbose=2, 
 
 # 将训练好的模型保存到文件 'model.h5'
 model.save('全连接神经网络乳腺癌检测实战/model.h5')
+# 将scaler对象也保存下来，以便在测试脚本中可以加载使用
+joblib.dump(sc, '全连接神经网络乳腺癌检测实战/scaler.gz')
 
 # 7. 结果可视化
 # 绘制训练过程中的损失值（loss）变化曲线

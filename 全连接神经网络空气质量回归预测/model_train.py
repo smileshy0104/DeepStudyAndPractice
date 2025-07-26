@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler  # 用于数据归一化
 from keras.layers import Dense  # Keras中的全连接层
 from sklearn.model_selection import train_test_split  # 用于划分数据集
 import keras  # Keras深度学习框架
+import joblib  # 用于保存和加载scikit-learn模型/对象
 
 # 解决matplotlib中文显示问题
 # 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
@@ -18,24 +19,37 @@ plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的�
 dataset = pd.read_csv("全连接神经网络空气质量回归预测/data.csv")
 # print(dataset) # 可以取消注释以查看原始数据集
 
-# 2. 数据预处理
-# 将数据进行归一化处理，将所有特征值缩放到[0, 1]区间
+# 2. 划分数据集
+# 严格遵循机器学习流程，先划分数据集，再进行归一化，以防数据泄露。
+# 这样做可以确保模型在评估时面对的是完全未见过的数据，从而更准确地反映其泛化能力。
+# test_size=0.2 表示将20%的数据作为测试集
+# random_state=42 确保每次划分结果都相同，便于复现
+train_df, test_df = train_test_split(dataset, test_size=0.2, random_state=42)
+
+# 3. 数据归一化
+# 创建一个MinMaxScaler对象，将特征值缩放到 [0, 1] 区间。
+# 重要：归一化处理器(scaler)应该仅在训练数据上进行 .fit() 或 .fit_transform()。
+# 这样可以学习到训练数据的分布，然后用这个学习到的规则去转换测试数据。
 sc = MinMaxScaler(feature_range=(0, 1))
-scaled = sc.fit_transform(dataset)
-# print(scaled) # 可以取消注释以查看归一化后的数据
+# 在训练集上拟合scaler并转换训练集
+train_scaled = sc.fit_transform(train_df)
+# 使用在训练集上拟合的scaler来转换测试集
+test_scaled = sc.transform(test_df)
 
-# 将归一化好的数据转化为DataFrame格式，方便后续处理
-dataset_sc = pd.DataFrame(scaled)
-# print(dataset_sc) # 可以取消注释以查看转换后的DataFrame
+# 将归一化后的数据转回DataFrame，方便提取特征和标签
+train_scaled_df = pd.DataFrame(train_scaled, columns=dataset.columns, index=train_df.index)
+test_scaled_df = pd.DataFrame(test_scaled, columns=dataset.columns, index=test_df.index)
 
-# 3. 划分特征和标签
-# 将数据集中的特征（所有行，除了最后一列）和标签（所有行，最后一列）分离开
-X = dataset_sc.iloc[:, :-1]  # 特征
-Y = dataset_sc.iloc[:, -1]   # 标签
+# 4. 提取特征和标签
+# 从归一化后的训练集中提取特征和标签
+x_train = train_scaled_df.iloc[:, :-1]
+y_train = train_scaled_df.iloc[:, -1]
+# 从归一化后的测试集中提取特征和标签
+x_test = test_scaled_df.iloc[:, :-1]
+y_test = test_scaled_df.iloc[:, -1]
 
-# 4. 划分训练集和测试集
-# 将数据集划分为训练集和测试集，测试集占20%，并设置随机种子以保证结果可复现
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+# 为了能在测试脚本中恢复数据，需要保存scaler
+joblib.dump(sc, '全连接神经网络空气质量回归预测/scaler.gz')
 
 # 5. 构建神经网络模型
 # 利用Keras的Sequential API搭建一个简单的全连接神经网络模型

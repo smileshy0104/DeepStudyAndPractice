@@ -9,6 +9,7 @@ from keras.layers import Dense  # 全连接层
 from keras.utils.np_utils import to_categorical  # 用于将标签转换为one-hot编码
 from sklearn.metrics import classification_report  # 用于生成分类报告
 from keras.models import load_model  # 用于加载已保存的Keras模型
+import joblib  # 用于加载保存的scaler对象
 
 # 2. Matplotlib全局设置，解决中文显示问题
 # 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
@@ -45,12 +46,12 @@ Y = dataset['target']
 # random_state=42 保证每次划分结果都一样，便于复现
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
+# 加载在训练时保存的scaler对象
+sc = joblib.load('全连接神经网络乳腺癌检测实战/scaler.gz')
+
 # 对测试集的特征数据进行归一化处理
-# 注意：在测试时，应该使用在训练集上学习到的归一化规则 (scaler)
-# 但此处为了脚本独立运行，重新创建并拟合了测试数据。
-# 更严谨的做法是保存训练时使用的scaler，在此处加载并使用。
-sc = MinMaxScaler(feature_range=(0, 1))
-x_test = sc.fit_transform(x_test)
+# 重要：这里必须使用从训练集学习到的scaler进行transform，而不是fit_transform
+x_test = sc.transform(x_test)
 
 # 4. 加载并使用模型进行预测
 # 从 'model.h5' 文件加载已经训练好的神经网络模型
