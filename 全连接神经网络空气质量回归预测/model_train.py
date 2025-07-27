@@ -24,6 +24,7 @@ dataset = pd.read_csv("全连接神经网络空气质量回归预测/data.csv")
 # 这样做可以确保模型在评估时面对的是完全未见过的数据，从而更准确地反映其泛化能力。
 # test_size=0.2 表示将20%的数据作为测试集
 # random_state=42 确保每次划分结果都相同，便于复现
+# train_df 训练集 test_df 测试集
 train_df, test_df = train_test_split(dataset, test_size=0.2, random_state=42)
 
 # 3. 数据归一化
@@ -86,5 +87,6 @@ plt.xlabel("Epoch")  # x轴标签
 plt.ylabel("Loss")   # y轴标签
 plt.legend()  # 显示图例
 plt.show()  # 显示图表
+
 
 
