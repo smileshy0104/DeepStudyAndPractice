@@ -4,6 +4,7 @@ import numpy as np  # 用于数值运算
 import pandas as pd  # 用于数据处理
 import matplotlib.pyplot as plt  # 用于数据可视化
 import keras  # 深度学习框架
+import tensorflow as tf
 from keras.layers import Dense, Flatten, Conv2D, MaxPool2D  # 从Keras导入所需的层
 
 # 解决matplotlib中文显示问题
@@ -32,21 +33,24 @@ BATCH_SIZE = 64  # 每一批次处理的图片数量
 IMG_HEIGHT = 32  # 图像高度
 IM_WIDTH = 32  # 图像宽度
 
-# 创建一个图像数据生成器，并进行归一化处理
+# 创建一个图像数据生成器，并进行归一化处理，加快数据处理速度
 # 将像素值从 [0, 255] 缩放到 [0, 1] 区间
-image_generator = keras.preprocessing.image.ImageDataGenerator(rescale=1.0 / 255)
+image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0 / 255)
 
 # 创建训练数据生成器
 # 从目录中读取图片，并应用上述的转换
+# 训练数据生成器默认从目录中读取图片，并应用上述的转换
+# 生成一个批次的训练数据
 train_data_gen = image_generator.flow_from_directory(
-    directory=str(data_train),  # 训练数据路径
+    directory=str(data_train),  # 训练数据路径（字符串）
     batch_size=BATCH_SIZE,  # 批次大小
     shuffle=True,  # 打乱数据
-    target_size=(IMG_HEIGHT, IM_WIDTH),  # 调整图像大小
+    target_size=(IMG_HEIGHT, IM_WIDTH),  # 调整图像大小为32*32
     classes=list(CLASS_NAMES)  # 指定类别列表
 )
 
 # 创建验证数据生成器
+# 从目录中读取图片，并应用上述的转换
 val_data_gen = image_generator.flow_from_directory(
     directory=str(data_val),  # 验证数据路径
     batch_size=BATCH_SIZE,  # 批次大小
@@ -94,10 +98,10 @@ model.add(Dense(6, activation='softmax'))
 # --- 编译和训练模型 ---
 
 # 编译卷积神经网络
-# loss='binary_crossentropy': 损失函数，对于多分类问题，'categorical_crossentropy' 更合适
+# loss='categorical_crossentropy': 损失函数，适用于多分类问题
 # optimizer='Adam': 优化器
 # metrics=['accuracy']: 评估指标
-model.compile(loss='binary_crossentropy', optimizer='Adam', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
 # 传入数据集进行训练
 # epochs=50: 训练轮数
@@ -106,7 +110,7 @@ history = model.fit(train_data_gen, validation_data=val_data_gen, epochs=50)
 # --- 保存模型和可视化结果 ---
 
 # 保存训练好的模型
-model.save("model.h5")
+model.save("基于卷积神经网络的缺陷检测/model.h5")
 
 # 绘制训练过程中的损失值 (loss) 变化图
 plt.plot(history.history['loss'], label='train_loss')
