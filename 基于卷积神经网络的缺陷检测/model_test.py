@@ -30,6 +30,7 @@ src = src / 255
 # 在第0维增加一个维度，以匹配模型输入的形状 (batch_size, height, width, channels)
 # 模型期望的是一个批次的图像，所以即使只有一张图片，也需要增加一个批次维度
 test_img = tf.expand_dims(src, 0)
+# print(test_img.shape)
 
 # 使用模型对预处理后的图像进行预测
 preds = model.predict(test_img)
