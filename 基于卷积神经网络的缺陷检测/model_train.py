@@ -110,22 +110,22 @@ history = model.fit(train_data_gen, validation_data=val_data_gen, epochs=50)
 # --- 保存模型和可视化结果 ---
 
 # 保存训练好的模型
-model.save("基于卷积神经网络的缺陷检测/model.h5")
+model.save("基于卷积神经网络的缺陷检测/model.h5")   # 保存模型
 
 # 绘制训练过程中的损失值 (loss) 变化图
-plt.plot(history.history['loss'], label='train_loss')
-plt.plot(history.history['val_loss'], label='val_loss')
-plt.title("CNN模型训练损失")
-plt.xlabel("Epochs")
-plt.ylabel("Loss")
-plt.legend()
-plt.show()
+plt.plot(history.history['loss'], label='train_loss') # 训练集损失
+plt.plot(history.history['val_loss'], label='val_loss') # 验证集损失
+plt.title("CNN模型训练损失") # 标题
+plt.xlabel("Epochs") # 横坐标
+plt.ylabel("Loss") # 纵坐标
+plt.legend() # 显示图例
+plt.show() # 显示图像
 
 # 绘制训练过程中的准确率 (accuracy) 变化图
-plt.plot(history.history['accuracy'], label='train_accuracy')
-plt.plot(history.history['val_accuracy'], label='val_accuracy')
-plt.title("CNN模型训练准确率")
-plt.xlabel("Epochs")
-plt.ylabel("Accuracy")
-plt.legend()
-plt.show()
+plt.plot(history.history['accuracy'], label='train_accuracy') # 训练集准确率
+plt.plot(history.history['val_accuracy'], label='val_accuracy') # 验证集准确率
+plt.title("CNN模型训练准确率") # 标题
+plt.xlabel("Epochs") # 横坐标
+plt.ylabel("Accuracy") # 纵坐标
+plt.legend() # 显示图例
+plt.show() # 显示图像
