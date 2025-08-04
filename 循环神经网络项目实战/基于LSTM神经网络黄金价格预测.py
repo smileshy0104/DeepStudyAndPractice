@@ -6,15 +6,15 @@ from sklearn.preprocessing import MinMaxScaler  # 用于数据归一化
 from keras.layers import Dense, LSTM  # 从Keras导入所需的层：全连接层和LSTM层
 import keras  # 导入Keras深度学习框架
 
-# 解决中文显示问题
-# Matplotlib默认不支持中文字符，需要设置字体为支持中文的字体（如SimHei）
-plt.rcParams['font.sans-serif'] = ['SimHei']
-# 解决负号显示问题
-plt.rcParams['axes.unicode_minus'] = False
+# 解决matplotlib中文显示问题
+# 提供一个字体列表，matplotlib会依次尝试，直到找到可用的字体
+# 'PingFang HK' 是 macOS 上常见的字体, 'SimHei' 和 'Microsoft YaHei' 是 Windows 上常见的字体
+plt.rcParams['font.sans-serif'] = ['PingFang HK', 'SimHei', 'Microsoft YaHei']
+plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的问题
 
 # 加载历史数据文件
 # 使用pandas的read_csv函数读取CSV文件，并将'Date'列作为索引
-dataset = pd.read_csv('LBMA-GOLD.csv', index_col='Date')
+dataset = pd.read_csv('循环神经网络项目实战/LBMA-GOLD.csv', index_col='Date')
 
 # 设置训练集的长度
 # 总数据长度为1256，这里取前1056条作为训练数据，后200条作为测试数据
@@ -93,7 +93,7 @@ model.compile(loss='mse', optimizer=keras.optimizers.Adam(0.01))
 # validation_data=(x_test, y_test)：在每个epoch结束后，在测试集上评估模型的性能
 history = model.fit(x_train, y_train, batch_size=32, epochs=100, validation_data=(x_test, y_test))
 # 保存训练好的模型到文件'model.h5'
-model.save('model.h5')
+model.save('循环神经网络项目实战/model.h5')
 
 # 绘制训练集和测试集的loss值对比图
 # history.history 包含了训练过程中的所有指标
