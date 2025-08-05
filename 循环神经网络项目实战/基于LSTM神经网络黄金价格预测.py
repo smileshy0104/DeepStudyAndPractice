@@ -20,21 +20,24 @@ dataset = pd.read_csv('循环神经网络项目实战/LBMA-GOLD.csv', index_col=
 # 总数据长度为1256，这里取前1056条作为训练数据，后200条作为测试数据
 training_len = 1256 - 200
 
-# 获取训练集数据
-# 使用.iloc基于整数位置进行索引，选择所有行和第0列（价格）作为训练集
-training_set = dataset.iloc[0:training_len, [0]]
+# 获取训练集数据（前1056行作为训练集）
+# 使用.iloc基于整数位置进行索引，选择所有行和第0列（价格）作为--训练集
+# 注意：iloc[0:training_len, [0]]，第一个参数表示行索引，第二个参数表示列索引
+training_set = dataset.iloc[0:training_len, [0]] # [0] 第一列时间作为索引
+# print(training_set)
 
-# 获取测试集数据
-# 选择训练集之后的数据作为测试集
-test_set = dataset.iloc[training_len:, [0]]
+# 获取测试集数据（后200行作为测试集）
+# 选择训练集之后的数据作为--测试集
+# 注意：iloc[training_len:, [0]]，第一个参数表示行索引，第二个参数表示列索引
+test_set = dataset.iloc[training_len:, [0]] # [0] 第一列时间作为索引
 
 # 将数据集进行归一化，方便神经网络的训练
 # 创建一个MinMaxScaler对象，将数据缩放到0到1的范围内
 sc = MinMaxScaler(feature_range=(0, 1))
 # 对训练集进行拟合和转换
-train_set_scaled = sc.fit_transform(training_set)
+train_set_scaled = sc.fit_transform(training_set) # 训练集
 # 使用相同的缩放器转换测试集，保证训练集和测试集使用相同的缩放标准
-test_set = sc.transform(test_set)
+test_set = sc.transform(test_set) # 测试集
 
 # 设置放置训练数据特征和训练数据标签的列表
 x_train = []  # 存放训练数据的输入特征
@@ -44,12 +47,20 @@ y_train = []  # 存放训练数据的标签
 x_test = []  # 存放测试数据的输入特征
 y_test = []  # 存放测试数据的标签
 
+# TODO 循环神经网络项目难点：时间序列数据
 # 利用for循环，遍历整个训练集，创建时间序列数据
 # 提取训练集中连续5个采样点的数据作为输入特征x_train，第6个采样点的数据作为标签y_train。
-# 这是一个创建滑动窗口的方法，窗口大小为5。
+# 这是一个创建滑动窗口的方法，--窗口大小为5。
+# 示例：
+# 0 1 2 3 4 5 
+# x x x x x y
+# 1 2 3 4 5 6
+# 2 3 4 5 6 7
+# 3 4 5 6 7 8
+# 4 5 6 7 8 9
 for i in range(5, len(train_set_scaled)):
-    x_train.append(train_set_scaled[i - 5:i, 0])
-    y_train.append(train_set_scaled[i, 0])
+    x_train.append(train_set_scaled[i - 5:i, 0]) # 输入特征x
+    y_train.append(train_set_scaled[i, 0]) # 标签y
 
 # 将训练集由list格式变为array格式，方便后续处理
 x_train, y_train = np.array(x_train), np.array(y_train)
