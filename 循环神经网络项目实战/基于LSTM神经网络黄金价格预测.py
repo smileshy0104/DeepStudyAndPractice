@@ -70,7 +70,7 @@ x_train, y_train = np.array(x_train), np.array(y_train)
 # 5 是时间步长（time steps）
 # 1 是每个时间步的特征数
 x_train = np.reshape(x_train, (x_train.shape[0], 5, 1))
-
+# print(x_train.shape)
 # 同理划分测试集数据
 # 对测试集也进行同样的操作，创建滑动窗口
 for i in range(5, len(test_set)):
@@ -80,7 +80,7 @@ for i in range(5, len(test_set)):
 # 测试集变array并reshape为符合LSTM输入要求的格式
 x_test, y_test = np.array(x_test), np.array(y_test)
 x_test = np.reshape(x_test, (x_test.shape[0], 5, 1))
-
+# print(x_test.shape)
 # # 搭建神经网络模型
 # 使用Keras的Sequential模型，这是一个线性的层次堆栈。
 model = keras.Sequential()
