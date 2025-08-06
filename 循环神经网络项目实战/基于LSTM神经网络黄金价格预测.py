@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt  # 用于数据可视化，绘制图表
 from sklearn.preprocessing import MinMaxScaler  # 从scikit-learn中导入MinMaxScaler，用于数据归一化
 from keras.layers import Dense, LSTM  # 从Keras中导入所需的神经网络层：全连接层(Dense)和长短期记忆网络层(LSTM)
 import keras  # 导入Keras深度学习框架
+import joblib # 用于保存和加载模型/对象
 
 # --------------------------------- 2. Matplotlib中文显示设置 ---------------------------------
 # 为了在图表中正确显示中文字符，需要进行以下设置
@@ -125,6 +126,8 @@ history = model.fit(x_train, y_train, batch_size=32, epochs=100, validation_data
 
 # 训练完成后，将模型保存到文件中，以便将来可以直接加载使用，无需重新训练
 model.save('循环神经网络项目实战/model.h5')
+# 保存MinMaxScaler对象，以便在测试时使用相同的缩放标准
+joblib.dump(sc, '循环神经网络项目实战/scaler.gz')
 
 # --------------------------------- 9. 可视化训练结果 ---------------------------------
 # 绘制训练过程中的损失(loss)和验证损失(val_loss)曲线，以评估模型性能
