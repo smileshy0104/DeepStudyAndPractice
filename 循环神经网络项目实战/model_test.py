@@ -77,8 +77,8 @@ print('平均绝对百分比误差 (MAPE):', mape)
 # 绘制真实价格和模型预测价格的对比图
 plt.plot(real_prices, color='red', label='真实黄金价格')
 plt.plot(prediction_original, color='blue', label='预测黄金价格')
-plt.title("基于LSTM神经网络的黄金价格预测")
-plt.xlabel("时间（天）")
-plt.ylabel("黄金价格")
+plt.title("基于LSTM神经网络的黄金价格预测") # 标题
+plt.xlabel("时间（天）") # 横坐标
+plt.ylabel("黄金价格") # 纵坐标
 plt.legend()  # 显示图例
 plt.show()  # 显示图表
