@@ -787,6 +787,455 @@ os.remove('test_array.txt')
 print("\n清理测试文件")
 ```
 
+## 矩阵构建方法
+
+### 1. 特殊矩阵创建
+
+```python
+# 特殊矩阵创建
+print("特殊矩阵创建:")
+
+# 单位矩阵
+identity_3 = np.eye(3)
+print("3x3单位矩阵:")
+print(identity_3)
+# [[1. 0. 0.]
+#  [0. 1. 0.]
+#  [0. 0. 1.]]
+
+# 对角矩阵
+diagonal = np.diag([1, 2, 3, 4])
+print("\n对角矩阵:")
+print(diagonal)
+# [[1 0 0 0]
+#  [0 2 0 0]
+#  [0 0 3 0]
+#  [0 0 0 4]]
+
+# 从矩阵提取对角线
+matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+diag_extracted = np.diag(matrix)
+print("\n提取的对角线:", diag_extracted)  # [1 5 9]
+
+# 上三角和下三角矩阵
+matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+upper_tri = np.triu(matrix)  # 上三角
+lower_tri = np.tril(matrix)  # 下三角
+
+print("\n上三角矩阵:")
+print(upper_tri)
+# [[1 2 3]
+#  [0 5 6]
+#  [0 0 9]]
+
+print("\n下三角矩阵:")
+print(lower_tri)
+# [[1 0 0]
+#  [4 5 0]
+#  [7 8 9]]
+```
+
+### 2. 数学矩阵构建
+
+```python
+# 数学矩阵构建
+print("\n数学矩阵构建:")
+
+# 范德蒙德矩阵 (Vandermonde Matrix)
+x = np.array([1, 2, 3, 4])
+vandermonde = np.vander(x, 3)  # 3列范德蒙德矩阵
+print("范德蒙德矩阵:")
+print(vandermonde)
+# [[ 1  1  1]
+#  [ 4  2  1]
+#  [ 9  3  1]
+#  [16  4  1]]
+
+# 希尔伯特矩阵 (Hilbert Matrix) - 数值分析中的重要矩阵
+def hilbert_matrix(n):
+    """创建n×n希尔伯特矩阵"""
+    H = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            H[i, j] = 1.0 / (i + j + 1)
+    return H
+
+hilbert_4 = hilbert_matrix(4)
+print("\n4×4希尔伯特矩阵:")
+print(hilbert_4)
+# [[1.         0.5        0.33333333 0.25      ]
+#  [0.5        0.33333333 0.25       0.2       ]
+#  [0.33333333 0.25       0.2        0.16666667]
+#  [0.25       0.2        0.16666667 0.14285714]]
+
+# 托普利茨矩阵 (Toeplitz Matrix) - 每条对角线元素相同
+from scipy.linalg import toeplitz
+
+# 如果没有scipy，手动创建
+def toeplitz_matrix(c, r=None):
+    """创建托普利茨矩阵"""
+    if r is None:
+        r = c
+    n = len(c)
+    m = len(r)
+    T = np.zeros((n, m))
+    for i in range(n):
+        for j in range(m):
+            if i >= j:
+                T[i, j] = c[i - j]
+            else:
+                T[i, j] = r[j - i]
+    return T
+
+c = np.array([1, 2, 3, 4])
+toeplitz_mat = toeplitz_matrix(c)
+print("\n托普利茨矩阵:")
+print(toeplitz_mat)
+# [[1 2 3 4]
+#  [2 1 2 3]
+#  [3 2 1 2]
+#  [4 3 2 1]]
+
+# 循环矩阵 (Circulant Matrix) - 每行都是前行的循环移位
+def circulant_matrix(c):
+    """创建循环矩阵"""
+    n = len(c)
+    C = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            C[i, j] = c[(j - i) % n]
+    return C
+
+circulant = circulant_matrix([1, 2, 3, 4])
+print("\n循环矩阵:")
+print(circulant)
+# [[1 2 3 4]
+#  [4 1 2 3]
+#  [3 4 1 2]
+#  [2 3 4 1]]
+```
+
+### 3. 块矩阵组合
+
+```python
+# 块矩阵组合
+print("\n块矩阵组合:")
+
+# 创建四个子矩阵
+A = np.ones((2, 2)) * 1
+B = np.ones((2, 2)) * 2
+C = np.ones((2, 2)) * 3
+D = np.ones((2, 2)) * 4
+
+print("子矩阵A:")
+print(A)
+print("子矩阵B:")
+print(B)
+print("子矩阵C:")
+print(C)
+print("子矩阵D:")
+print(D)
+
+# 水平组合
+top = np.hstack([A, B])
+bottom = np.hstack([C, D])
+
+print("\n水平组合后的上部分:")
+print(top)
+# [[1. 1. 2. 2.]
+#  [1. 1. 2. 2.]]
+
+print("\n水平组合后的下部分:")
+print(bottom)
+# [[3. 3. 4. 4.]
+#  [3. 3. 4. 4.]]
+
+# 垂直组合成完整块矩阵
+block_matrix = np.vstack([top, bottom])
+print("\n完整块矩阵:")
+print(block_matrix)
+# [[1. 1. 2. 2.]
+#  [1. 1. 2. 2.]
+#  [3. 3. 4. 4.]
+#  [3. 3. 4. 4.]]
+
+# 使用block函数（更清晰的方式）
+def block_matrix_2x2(A, B, C, D):
+    """创建2×2块矩阵"""
+    top = np.hstack([A, B])
+    bottom = np.hstack([C, D])
+    return np.vstack([top, bottom])
+
+# 创建更复杂的块对角矩阵
+def block_diagonal(blocks):
+    """创建块对角矩阵"""
+    n_blocks = len(blocks)
+    block_sizes = [block.shape[0] for block in blocks]
+    total_size = sum(block_sizes)
+
+    result = np.zeros((total_size, total_size))
+    current_pos = 0
+
+    for block in blocks:
+        size = block.shape[0]
+        result[current_pos:current_pos+size, current_pos:current_pos+size] = block
+        current_pos += size
+
+    return result
+
+# 创建块对角矩阵
+block1 = np.eye(2)
+block2 = np.ones((3, 3)) * 2
+block3 = np.diag([5, 6])
+
+block_diag = block_diagonal([block1, block2, block3])
+print("\n块对角矩阵:")
+print(block_diag)
+```
+
+### 4. 稀疏矩阵模式
+
+```python
+# 稀疏矩阵模式
+print("\n稀疏矩阵模式:")
+
+# 创建稀疏矩阵模式（大部分元素为0）
+def sparse_pattern(rows, cols, density=0.1):
+    """创建稀疏矩阵模式"""
+    mask = np.random.random((rows, cols)) < density
+    sparse = np.zeros((rows, cols))
+    sparse[mask] = np.random.randint(1, 10, np.sum(mask))
+    return sparse
+
+sparse_5x5 = sparse_pattern(5, 5, density=0.2)
+print("5×5稀疏矩阵模式:")
+print(sparse_5x5)
+
+# 带状矩阵
+def banded_matrix(n, bandwidth):
+    """创建带状矩阵"""
+    matrix = np.zeros((n, n))
+    for i in range(n):
+        for j in range(max(0, i-bandwidth), min(n, i+bandwidth+1)):
+            matrix[i, j] = np.random.randint(1, 10)
+    return matrix
+
+banded = banded_matrix(6, 1)  # 带宽为1的三对角矩阵
+print("\n带状矩阵:")
+print(banded)
+```
+
+## 随机数生成和采样
+
+### 1. 基础随机数生成
+
+```python
+# 基础随机数生成
+print("基础随机数生成:")
+
+# 设置随机种子保证结果可重现
+np.random.seed(42)
+
+# 生成[0,1)均匀分布的随机数
+uniform_random = np.random.random(5)
+print("均匀分布随机数:", uniform_random)
+# [0.37454012 0.95071431 0.73199394 0.59865848 0.15601864]
+
+# 生成指定范围的随机整数
+int_random = np.random.randint(1, 10, 5)  # 1到9之间的5个整数
+print("1-9随机整数:", int_random)
+# [7 4 8 5 7]
+
+# 生成标准正态分布随机数
+normal_random = np.random.randn(5)
+print("标准正态分布随机数:", normal_random)
+# [-0.46947439  0.54256004 -0.46341769 -0.46572975  0.24196227]
+
+# 生成指定均值和标准差的正态分布
+custom_normal = np.random.normal(loc=2.0, scale=0.5, size=5)  # 均值2，标准差0.5
+print("自定义正态分布:", custom_normal)
+```
+
+### 2. 概率分布采样
+
+```python
+# 概率分布采样
+print("\n概率分布采样:")
+
+# 二项分布
+binomial = np.random.binomial(n=10, p=0.3, size=8)  # 10次试验，成功概率0.3
+print("二项分布采样:", binomial)
+
+# 泊松分布
+poisson = np.random.poisson(lam=3.0, size=6)  # λ=3.0
+print("泊松分布采样:", poisson)
+
+# 指数分布
+exponential = np.random.exponential(scale=2.0, size=5)  # 尺度参数2.0
+print("指数分布采样:", exponential)
+
+# Beta分布
+beta = np.random.beta(a=2.0, b=5.0, size=4)  # α=2.0, β=5.0
+print("Beta分布采样:", beta)
+
+# Gamma分布
+gamma = np.random.gamma(shape=2.0, scale=2.0, size=4)
+print("Gamma分布采样:", gamma)
+
+# 离散分布（自定义概率）
+choices = ['A', 'B', 'C', 'D']
+probabilities = [0.1, 0.2, 0.3, 0.4]
+discrete_sample = np.random.choice(choices, size=10, p=probabilities)
+print("离散分布采样:", discrete_sample)
+```
+
+### 3. 随机排列和洗牌
+
+```python
+# 随机排列和洗牌
+print("\n随机排列和洗牌:")
+
+# 创建有序数组
+original = np.arange(10)
+print("原始数组:", original)
+
+# 随机排列（不改变原数组）
+permuted = np.random.permutation(10)
+print("随机排列:", permuted)
+
+# 原地洗牌（改变原数组）
+shuffled = original.copy()
+np.random.shuffle(shuffled)
+print("洗牌后:", shuffled)
+
+# 从数组中随机采样
+sample_without_replacement = np.random.choice(original, size=5, replace=False)
+print("无放回采样:", sample_without_replacement)
+
+sample_with_replacement = np.random.choice(original, size=5, replace=True)
+print("有放回采样:", sample_with_replacement)
+```
+
+### 4. 多维随机数组
+
+```python
+# 多维随机数组
+print("\n多维随机数组:")
+
+# 2D均匀分布随机矩阵
+matrix_2d_uniform = np.random.random((3, 4))
+print("2D均匀分布随机矩阵:")
+print(matrix_2d_uniform)
+
+# 3D正态分布随机张量
+tensor_3d_normal = np.random.randn(2, 3, 4)
+print("\n3D正态分布随机张量形状:", tensor_3d_normal.shape)
+
+# 相关随机序列（时间序列模拟）
+def correlated_sequence(n, correlation=0.8):
+    """生成相关的随机序列"""
+    white_noise = np.random.randn(n)
+    correlated = np.zeros(n)
+    correlated[0] = white_noise[0]
+
+    for i in range(1, n):
+        correlated[i] = correlation * correlated[i-1] + np.sqrt(1 - correlation**2) * white_noise[i]
+
+    return correlated
+
+correlated_data = correlated_sequence(100, correlation=0.9)
+print(f"相关随机序列前10个: {correlated_data[:10]}")
+
+# 多变量正态分布
+mean = [1, 2]
+cov = [[1, 0.5], [0.5, 2]]  # 协方差矩阵
+multivariate_normal = np.random.multivariate_normal(mean, cov, 5)
+print("\n多变量正态分布采样:")
+print(multivariate_normal)
+```
+
+### 5. 随机数种子和可重现性
+
+```python
+# 随机数种子和可重现性
+print("\n随机数种子和可重现性:")
+
+# 全局种子设置
+np.random.seed(123)
+random1 = np.random.random(3)
+print("种子123的结果1:", random1)
+
+np.random.seed(123)
+random2 = np.random.random(3)
+print("种子123的结果2:", random2)
+print("结果相同:", np.array_equal(random1, random2))
+
+# 使用RandomState对象（更好的实践）
+rng1 = np.random.RandomState(456)
+rng2 = np.random.RandomState(456)
+
+random3 = rng1.random(3)
+random4 = rng2.random(3)
+print("\nRandomState对象结果相同:", np.array_equal(random3, random4))
+
+# 独立的随机数生成器
+rng_a = np.random.RandomState(111)
+rng_b = np.random.RandomState(222)
+
+data_a = rng_a.randint(0, 100, 5)
+data_b = rng_b.randint(0, 100, 5)
+print("\n生成器A结果:", data_a)
+print("生成器B结果:", data_b)
+```
+
+### 6. 随机数在模拟中的应用
+
+```python
+# 随机数在模拟中的应用
+print("\n随机数在模拟中的应用:")
+
+# 蒙特卡罗方法估算π
+def monte_carlo_pi(n_samples):
+    """蒙特卡罗方法估算π"""
+    x = np.random.random(n_samples)
+    y = np.random.random(n_samples)
+
+    # 计算落在单位圆内的点
+    inside_circle = x**2 + y**2 <= 1
+    pi_estimate = 4 * np.sum(inside_circle) / n_samples
+
+    return pi_estimate
+
+# 不同样本量的π估算
+sample_sizes = [1000, 10000, 100000, 1000000]
+for n in sample_sizes:
+    pi_est = monte_carlo_pi(n)
+    print(f"{n:,}个样本 - π估算值: {pi_est:.6f}, 误差: {abs(pi_est - np.pi):.6f}")
+
+# 随机游走模拟
+def random_walk(n_steps, n_walks=1):
+    """随机游走模拟"""
+    steps = np.random.choice([-1, 1], size=(n_walks, n_steps))
+    positions = np.cumsum(steps, axis=1)
+    return positions
+
+# 模拟1000步的随机游走
+walks = random_walk(1000, n_walks=5)
+print(f"\n随机游走形状: {walks.shape}")
+print("最终位置:", walks[:, -1])
+
+# 布朗运动模拟
+def brownian_motion(n_steps, dt=0.01, volatility=0.1):
+    """布朗运动模拟"""
+    random_shocks = np.random.randn(n_steps)
+    price_path = np.cumsum(random_shocks) * volatility * np.sqrt(dt)
+    return price_path
+
+brownian_path = brownian_motion(252)  # 一年的交易日
+print(f"\n布朗运动路径长度: {len(brownian_path)}")
+print("最终价格变化:", brownian_path[-1])
+```
+
 ## 数组的性能优化
 
 ### 1. 内存布局优化
