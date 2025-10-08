@@ -574,6 +574,12 @@ df_int = pd.DataFrame({
 })
 print("整数类型:")
 print(df_int.dtypes)
+# 整数类型:
+# int8_col      int8
+# int16_col    int16
+# int32_col    int32
+# int64_col    int64
+# dtype: object
 
 # 浮点数类型
 df_float = pd.DataFrame({
@@ -583,6 +589,11 @@ df_float = pd.DataFrame({
 })
 print("\n浮点数类型:")
 print(df_float.dtypes)
+# 浮点数类型:
+# float16_col    float16
+# float32_col    float32
+# float64_col    float64
+# dtype: object
 
 # 字符串类型
 print("\n字符串类型:")
@@ -591,6 +602,10 @@ df_str = pd.DataFrame({
     'string_col': pd.Series(['Apple', 'Banana', 'Cherry'], dtype='string')  # string 类型
 })
 print(df_str.dtypes)
+# 字符串类型:
+# object_col     object
+# string_col     string
+# dtype: object
 ```
 
 ### 2. 日期时间类型
@@ -609,6 +624,15 @@ df_dates = pd.DataFrame({
 print("日期时间 DataFrame:")
 print(df_dates)
 print("日期列类型:", df_dates['日期'].dtype)
+# 日期时间 DataFrame:
+#           日期  销售额
+# 0 2024-01-01  100
+# 1 2024-01-02  120
+# 2 2024-01-03   90
+# 3 2024-01-04  110
+# 4 2024-01-05  130
+# 日期列类型: datetime64[ns]
+
 
 # 日期时间操作
 print("\n日期时间操作:")
@@ -617,6 +641,13 @@ df_dates['月份'] = df_dates['日期'].dt.month
 df_dates['星期'] = df_dates['日期'].dt.day_name()
 print("添加时间属性后:")
 print(df_dates)
+# 添加时间属性后:
+#           日期  销售额    年份  月份         星期
+# 0 2024-01-01  100  2024    1      Monday
+# 1 2024-01-02  120  2024    1     Tuesday
+# 2 2024-01-03   90  2024    1   Wednesday
+# 3 2024-01-04  110  2024    1    Thursday
+# 4 2024-01-05  130  2024    1      Friday
 
 print("\n2. 时间差类型 (timedelta64[ns]):")
 
@@ -632,6 +663,12 @@ df_timedelta['时间差'] = df_timedelta['结束日期'] - df_timedelta['开始�
 print("时间差 DataFrame:")
 print(df_timedelta)
 print("时间差类型:", df_timedelta['时间差'].dtype)
+# 时间差 DataFrame:
+#          开始日期        结束日期    时间差
+# 0 2024-01-01 2024-01-05 4 days
+# 1 2024-01-02 2024-01-06 4 days
+# 2 2024-01-03 2024-01-07 4 days
+# 时间差类型: timedelta64[ns]
 
 print("\n3. 时间周期类型:")
 
@@ -644,6 +681,14 @@ df_periods = pd.DataFrame({
 print("周期数据:")
 print(df_periods)
 print("周期类型:", df_periods['月份'].dtype)
+# 周期数据:
+#        月份   销售额
+# 0  2024-01   1000
+# 1  2024-02   1200
+# 2  2024-03    900
+# 3  2024-04   1100
+# 周期类型: period[M]
+
 ```
 
 ### 3. 分类数据类型
