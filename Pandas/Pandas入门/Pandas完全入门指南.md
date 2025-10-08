@@ -709,23 +709,49 @@ df_categorical = pd.DataFrame({
 })
 
 # 转换为分类类型
+# - pd.Categorical() - 将数据转换为分类类型
+# - df_categorical['尺寸'] - 原始数据列
+# - categories=categories - 预定义的分类顺序列表
+# - ordered=True - 设置为有序分类
 df_categorical['尺寸分类'] = pd.Categorical(df_categorical['尺寸'],
                                           categories=categories,
                                           ordered=True)
 print("分类数据:")
 print(df_categorical)
+#   产品名称 尺寸 尺寸分类
+# 0    A   中     中
+# 1    B   小     小
+# 2    C   大     大
+# 3    D   中     中
+# 4    E   小     小
+# 5    F   大     大
+# 6    G   中     中
+
 print("\n数据类型:")
 print(df_categorical.dtypes)
+# 产品名称       object
+# 尺寸           object
+# 尺寸分类    category
+# dtype: object
 
 # 分类数据的优势
+# memory_usage() - 计算列的内存使用量（字节）
 print("\n分类数据的优势:")
 print("内存使用对比:")
 print("object 类型内存:", df_categorical['尺寸'].memory_usage())
 print("category 类型内存:", df_categorical['尺寸分类'].memory_usage())
+# object 类型内存: 148
+# category 类型内存: 80
 
 print("\n分类统计:")
 print("尺寸分布:")
+# value_counts() - 计算每个唯一值的频数
 print(df_categorical['尺寸分类'].value_counts())
+# 尺寸分布:
+# 中    3
+# 小    2
+# 大    2
+# Name: 尺寸分类, dtype: int64
 
 print("\n2. 自定义分类数据:")
 
@@ -739,8 +765,26 @@ df_education = pd.DataFrame({
 })
 print("学历分类数据:")
 print(df_education)
+# 学历分类数据:
+#    姓名  学历
+# 0  张三   本科
+# 1  李四   硕士
+# 2  王五   本科
+# 3  赵六   高中
+# 4  钱七   博士
+# 5  孙八   本科
+# 6  周九   硕士
 print("\n学历排序:")
 print(df_education.sort_values('学历'))
+# 学历排序:
+#    姓名  学历
+# 3  赵六   高中
+# 0  张三   本科
+# 2  王五   本科
+# 5  孙八   本科
+# 1  李四   硕士
+# 6  周九   硕士
+# 4  钱七   博士
 ```
 
 ### 4. 特殊数据类型
@@ -760,13 +804,33 @@ df_nulls = pd.DataFrame({
 })
 print("包含空值的数据:")
 print(df_nulls)
+# 包含空值的数据:
+#     整数列  浮点数列 字符串列     布尔列
+# 0   1.0    1.1    A   True
+# 1   2.0    NaN    B  False
+# 2   NaN    3.3  None   None
+# 3   4.0    4.4    D   True
+# 4   5.0    NaN    E  False
+
 print("\n数据类型 (包含空值):")
 print(df_nulls.dtypes)
+# 数据类型 (包含空值):
+# 整数列      float64
+# 浮点数列     float64
+# 字符串列      object
+# 布尔列        object
+# dtype: object
 
 # 空值检测
 print("\n空值检测:")
 print("各列空值数量:")
 print(df_nulls.isnull().sum())
+# 各列空值数量:
+# 整数列    1
+# 浮点数列   2
+# 字符串列   1
+# 布尔列     1
+# dtype: int64
 
 print("\n2. 混合类型数据:")
 
@@ -782,6 +846,18 @@ print("混合类型数据:")
 print(df_mixed)
 print("\n混合类型 dtype:")
 print(df_mixed.dtypes)
+# 混合类型数据:
+#       数字 字母     布尔
+# 0   1.0   A   True
+# 1   2.5   B  False
+# 2   3.0   C   None
+# 3   NaN   D   True
+
+# 混合类型 dtype:
+# 数字    float64
+# 字母     object
+# 布尔     object
+# dtype: object
 
 print("\n3. 稀疏数据:")
 
@@ -797,6 +873,19 @@ print(df_sparse)
 # 只显示非空值
 print("\n非空行:")
 print(df_sparse.dropna())
+# 稀疏数据:
+#    ID   值    标签
+# 0   1  10     A
+# 1   2   0  None
+# 2   3  30     B
+# 3   4   0  None
+# 4   5  50     C
+
+# 非空行:
+#    ID   值 标签
+# 0   1  10  A
+# 2   3  30  B
+# 4   5  50  C
 ```
 
 ### 5. 数据类型转换
