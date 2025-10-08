@@ -346,7 +346,7 @@ print("带索引和名称:")
 print(s5)
 
 # 指定数据类型
-s6 = pd.Series([1.1, 2.2, 3.3], dtype='int32')
+s6 = pd.Series([1.1, 2.2, 3.3], dtype='float32')
 print("指定数据类型:", s6.dtype, s6.values)
 
 # 从标量创建

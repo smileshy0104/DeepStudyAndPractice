@@ -65,3 +65,38 @@ series_b = pd.Series([10, 20, 30, 40])
 print("series_a + 5:", series_a + 5)
 print("series_a * series_b:", series_a * series_b)
 print("series_a > 2:", series_a > 2)
+
+
+# 指定数据类型
+s6 = pd.Series([1.1, 2.2, 3.3], dtype='float32')
+print("指定数据类型:", s6.dtype, s6.values)
+
+# 从标量创建
+s7 = pd.Series(5, index=['a', 'b', 'c'])
+print("从标量创建:")
+print(s7)
+
+print("\n3. 高级创建方法:")
+
+# 从函数创建
+def square(x):
+    return x ** 2
+
+s8 = pd.Series([square(i) for i in range(5)],
+               index=[f'item_{i}' for i in range(5)])
+print("从函数创建:")
+print(s8)
+
+# 从日期创建
+dates = pd.date_range('2024-01-01', periods=5)
+s9 = pd.Series(range(1, 6), index=dates)
+print("日期索引 Series:")
+print(s9)
+
+# 从多级索引创建
+arrays = [['A', 'A', 'B', 'B'], [1, 2, 1, 2]]
+tuples = list(zip(*arrays))
+index = pd.MultiIndex.from_tuples(tuples, names=['字母', '数字'])
+s10 = pd.Series([10, 20, 30, 40], index=index)
+print("多级索引 Series:")
+print(s10)
