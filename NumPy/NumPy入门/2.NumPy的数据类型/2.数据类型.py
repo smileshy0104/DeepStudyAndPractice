@@ -23,11 +23,12 @@ print("本地字节顺序:", native_dtype.byteorder)            # 输出: '='
 print("np.int32 的字节顺序:", np.dtype(np.int32).byteorder)  # 输出可能为 '='
 
 # 4. 创建一个包含字节顺序的数据类型
-custom_dtype = np.dtype([('value', np.float32), ('label', np.unicode_, 10)])
-print("自定义数据类型的字节顺序:", custom_dtype.byteorder)  # 输出可能为 '='
+# custom_dtype = np.dtype([('value', np.float32), ('label', np.unicode_, 10)])
+# print("自定义数据类型的字节顺序:", custom_dtype.byteorder)  # 输出可能为 '='
 
 # 5. 通过字节顺序创建一个数组
 data = np.array([1, 2, 3], dtype=little_endian_dtype)
+print("小端法数组:", data)  # 输出: [1 2 3]
 print("小端法数组:", data)  # 输出: [1 2 3]
 
 data_big_endian = np.array([1, 2, 3], dtype=big_endian_dtype)
