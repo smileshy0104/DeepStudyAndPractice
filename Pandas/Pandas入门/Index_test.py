@@ -58,3 +58,55 @@ print(df_custom)
 
 print("按姓名查找成绩:")
 print(df_custom.loc['李四'])
+
+
+print("\n=== 创建多级索引数据 ===")
+
+print("\n1. 多级索引 Series:")
+
+# 创建多级索引 Series
+arrays = [
+    ['北京', '北京', '上海', '上海', '广州', '广州'],
+    ['语文', '数学', '语文', '数学', '语文', '数学']
+]
+index = pd.MultiIndex.from_arrays(arrays, names=['城市', '科目'])
+multi_series = pd.Series([85, 92, 78, 88, 95, 82], index=index)
+print("多级索引 Series:")
+print(multi_series)
+
+# 访问多级索引数据
+print("\n访问北京的数据:")
+print(multi_series['北京'])
+
+print("\n访问所有城市的语文成绩:")
+print(multi_series[:, '语文'])
+
+print("\n2. 多级索引 DataFrame:")
+
+# 创建多级索引 DataFrame
+data = {
+    ('销售', 'Q1'): [100, 120, 90],
+    ('销售', 'Q2'): [110, 130, 95],
+    ('成本', 'Q1'): [60, 70, 55],
+    ('成本', 'Q2'): [65, 75, 58]
+}
+df_multi = pd.DataFrame(data,
+                       index=['北京', '上海', '广州'])
+print("多级列名 DataFrame:")
+print(df_multi)
+
+# 创建多级行索引
+index_arrays = [
+    ['2024', '2024', '2024', '2025', '2025', '2025'],
+    ['Q1', 'Q2', 'Q3', 'Q1', 'Q2', 'Q3'],
+    ['A产品', 'B产品', 'C产品', 'A产品', 'B产品', 'C产品']
+]
+multi_col_index = pd.MultiIndex.from_arrays(index_arrays,
+                                           names=['年份', '季度', '产品'])
+
+df_multi2 = pd.DataFrame({
+    '销售额': [100, 120, 90, 110, 130, 95],
+    '利润': [20, 25, 15, 22, 28, 18]
+}, index=multi_col_index)
+print("\n多级行索引 DataFrame:")
+print(df_multi2)
