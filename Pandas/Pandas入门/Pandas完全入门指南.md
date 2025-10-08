@@ -907,6 +907,20 @@ print("原始数据:")
 print(df_convert)
 print("\n原始数据类型:")
 print(df_convert.dtypes)
+# 原始数据:
+#     ID      价格  数量          日期 是否完成
+# 0  001  100.50  10  2024-01-01     是
+# 1  002  200.75  20  2024-01-02     否
+# 2  003  150.25  15  2024-01-03     是
+# 3  004  300.00  25  2024-01-04     是
+
+# 原始数据类型:
+# ID      object
+# 价格     object
+# 数量     object
+# 日期     object
+# 是否完成    object
+# dtype: object
 
 # 数据类型转换
 print("\n数据类型转换:")
@@ -930,6 +944,20 @@ print("\n转换后的数据:")
 print(df_convert[['ID_new', '价格_new', '数量_new', '日期_new', '是否完成_new']])
 print("\n转换后的数据类型:")
 print(df_convert[['ID_new', '价格_new', '数量_new', '日期_new', '是否完成_new']].dtypes)
+# 转换后的数据:
+#    ID_new  价格_new  数量_new     日期_new  是否完成_new
+# 0       1   100.50       10 2024-01-01         True
+# 1       2   200.75       20 2024-01-02        False
+# 2       3   150.25       15 2024-01-03         True
+# 3       4   300.00       25 2024-01-04         True
+
+# 转换后的数据类型:
+# ID_new                     int64
+# 价格_new                 float64
+# 数量_new                   int64
+# 日期_new          datetime64[ns]
+# 是否完成_new                bool
+# dtype: object
 
 # 智能类型转换
 print("\n智能类型转换:")
@@ -937,6 +965,12 @@ df_auto = df_convert[['ID', '价格', '数量', '日期']].copy()
 df_auto = df_auto.infer_objects()
 print("自动推断类型后:")
 print(df_auto.dtypes)
+# 自动推断类型后:
+# ID      object
+# 价格     object
+# 数量     object
+# 日期     object
+# dtype: object
 
 # 处理转换错误
 print("\n处理转换错误:")
@@ -947,6 +981,9 @@ print("问题数据:", problematic_data.tolist())
 safe_conversion = pd.to_numeric(problematic_data, errors='coerce')
 print("安全转换结果:", safe_conversion.tolist())
 print("转换失败的设为:", safe_conversion.isna().sum(), "个空值")
+# 问题数据: ['100', '200', 'invalid', '300']
+# 安全转换结果: [100.0, 200.0, nan, 300.0]
+# 转换失败的设为: 1 个空值
 ```
 
 ## Pandas 实际应用案例
