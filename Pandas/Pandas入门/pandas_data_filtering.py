@@ -25,7 +25,7 @@ def main():
 
     print("员工数据:")
     print(df)
-    print(f"\n数据形状: {df.shape}")
+    print(f"\n数据形状: {df.shape}") # 数据形状: (6, 5)
 
     # ==================== 6.1 条件筛选 ====================
     print("\n" + "="*60)
@@ -36,6 +36,14 @@ def main():
     print("\n--- 基础条件筛选 ---")
 
     print("1. 年龄大于30的员工:")
+    # 筛选
+    print(df['年龄'] > 30)
+    # emp1    False
+    # emp2    False
+    # emp3     True
+    # emp4    False
+    # emp5     True
+    # emp6    False
     high_age = df[df['年龄'] > 30]
     print(high_age)
 
@@ -267,93 +275,93 @@ def main():
     print("智能筛选结果:")
     print(smart_result)
 
-    # 高级自定义筛选
-    print("\n--- 高级自定义筛选 ---")
+    # # 高级自定义筛选
+    # print("\n--- 高级自定义筛选 ---")
 
-    def advanced_filter(dataframe, criteria):
-        """高级筛选函数，支持复杂条件"""
-        result = dataframe.copy()
+    # def advanced_filter(dataframe, criteria):
+    #     """高级筛选函数，支持复杂条件"""
+    #     result = dataframe.copy()
 
-        for criterion in criteria:
-            criterion_type = criterion.get('type')
+    #     for criterion in criteria:
+    #         criterion_type = criterion.get('type')
 
-            if criterion_type == 'and_condition':
-                # AND条件组
-                and_mask = pd.Series([True] * len(result))
-                for condition in criterion.get('conditions', []):
-                    field = condition['field']
-                    operator = condition['operator']
-                    value = condition['value']
+    #         if criterion_type == 'and_condition':
+    #             # AND条件组
+    #             and_mask = pd.Series([True] * len(result))
+    #             for condition in criterion.get('conditions', []):
+    #                 field = condition['field']
+    #                 operator = condition['operator']
+    #                 value = condition['value']
 
-                    if operator == '>':
-                        and_mask &= (result[field] > value)
-                    elif operator == '<':
-                        and_mask &= (result[field] < value)
-                    elif operator == '>=':
-                        and_mask &= (result[field] >= value)
-                    elif operator == '<=':
-                        and_mask &= (result[field] <= value)
-                    elif operator == '==':
-                        and_mask &= (result[field] == value)
-                    elif operator == '!=':
-                        and_mask &= (result[field] != value)
-                    elif operator == 'in':
-                        and_mask &= result[field].isin(value)
-                    elif operator == 'contains':
-                        and_mask &= result[field].str.contains(value, na=False)
+    #                 if operator == '>':
+    #                     and_mask &= (result[field] > value)
+    #                 elif operator == '<':
+    #                     and_mask &= (result[field] < value)
+    #                 elif operator == '>=':
+    #                     and_mask &= (result[field] >= value)
+    #                 elif operator == '<=':
+    #                     and_mask &= (result[field] <= value)
+    #                 elif operator == '==':
+    #                     and_mask &= (result[field] == value)
+    #                 elif operator == '!=':
+    #                     and_mask &= (result[field] != value)
+    #                 elif operator == 'in':
+    #                     and_mask &= result[field].isin(value)
+    #                 elif operator == 'contains':
+    #                     and_mask &= result[field].str.contains(value, na=False)
 
-                result = result[and_mask]
+    #             result = result[and_mask]
 
-            elif criterion_type == 'or_condition':
-                # OR条件组
-                or_mask = pd.Series([False] * len(result))
-                for condition in criterion.get('conditions', []):
-                    field = condition['field']
-                    operator = condition['operator']
-                    value = condition['value']
+    #         elif criterion_type == 'or_condition':
+    #             # OR条件组
+    #             or_mask = pd.Series([False] * len(result))
+    #             for condition in criterion.get('conditions', []):
+    #                 field = condition['field']
+    #                 operator = condition['operator']
+    #                 value = condition['value']
 
-                    if operator == '>':
-                        or_mask |= (result[field] > value)
-                    elif operator == '<':
-                        or_mask |= (result[field] < value)
-                    elif operator == '>=':
-                        or_mask |= (result[field] >= value)
-                    elif operator == '<=':
-                        or_mask |= (result[field] <= value)
-                    elif operator == '==':
-                        or_mask |= (result[field] == value)
-                    elif operator == '!=':
-                        or_mask |= (result[field] != value)
-                    elif operator == 'in':
-                        or_mask |= result[field].isin(value)
-                    elif operator == 'contains':
-                        or_mask |= result[field].str.contains(value, na=False)
+    #                 if operator == '>':
+    #                     or_mask |= (result[field] > value)
+    #                 elif operator == '<':
+    #                     or_mask |= (result[field] < value)
+    #                 elif operator == '>=':
+    #                     or_mask |= (result[field] >= value)
+    #                 elif operator == '<=':
+    #                     or_mask |= (result[field] <= value)
+    #                 elif operator == '==':
+    #                     or_mask |= (result[field] == value)
+    #                 elif operator == '!=':
+    #                     or_mask |= (result[field] != value)
+    #                 elif operator == 'in':
+    #                     or_mask |= result[field].isin(value)
+    #                 elif operator == 'contains':
+    #                     or_mask |= result[field].str.contains(value, na=False)
 
-                result = result[or_mask]
+    #             result = result[or_mask]
 
-        return result
+    #     return result
 
-    # 使用高级筛选
-    advanced_criteria = [
-        {
-            'type': 'and_condition',
-            'conditions': [
-                {'field': '年龄', 'operator': '>=', 'value': 25},
-                {'field': '年龄', 'operator': '<=', 'value': 35}
-            ]
-        },
-        {
-            'type': 'or_condition',
-            'conditions': [
-                {'field': '部门', 'operator': '==', 'value': '技术'},
-                {'field': '工资', 'operator': '>', 'value': 12000}
-            ]
-        }
-    ]
+    # # 使用高级筛选
+    # advanced_criteria = [
+    #     {
+    #         'type': 'and_condition',
+    #         'conditions': [
+    #             {'field': '年龄', 'operator': '>=', 'value': 25},
+    #             {'field': '年龄', 'operator': '<=', 'value': 35}
+    #         ]
+    #     },
+    #     {
+    #         'type': 'or_condition',
+    #         'conditions': [
+    #             {'field': '部门', 'operator': '==', 'value': '技术'},
+    #             {'field': '工资', 'operator': '>', 'value': 12000}
+    #         ]
+    #     }
+    # ]
 
-    advanced_result = advanced_filter(df, advanced_criteria)
-    print("\n高级筛选结果 (年龄25-35 且 (部门=技术 或 工资>12000)):")
-    print(advanced_result)
+    # advanced_result = advanced_filter(df, advanced_criteria)
+    # print("\n高级筛选结果 (年龄25-35 且 (部门=技术 或 工资>12000)):")
+    # print(advanced_result)
 
     # ==================== 实用筛选技巧 ====================
     print("\n" + "="*60)
