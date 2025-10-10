@@ -157,6 +157,7 @@ def main():
     print("班级内排名:")
     print(score_df[['姓名', '班级', '总分', '班级内排名']].sort_values(['班级', '班级内排名']))
 
+
     # ==================== 第8章: 数据修改 ====================
     print("\n" + "="*60)
     print("第8章: 数据修改 (Data Modification)")
@@ -168,7 +169,8 @@ def main():
 
     # 复制数据用于修改
     df_modified = df.copy()
-
+    print("原始数据:")
+    print(df_modified)
     # 修改单个值
     print("1. 修改单个值:")
     print(f"修改前 emp2 的年龄: {df_modified.loc['emp2', '年龄']}")
